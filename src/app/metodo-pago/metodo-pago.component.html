@@ -1,0 +1,208 @@
+<header class="header">
+  <div class="header__inner">
+    <h1 class="brand">Panadería Sophy</h1>
+    <nav class="nav">
+      <a class="nav-link" routerLink="/home"><i class="fas fa-home"></i> Inicio</a>
+      <a class="nav-link" routerLink="/carrito"><i class="fas fa-shopping-cart"></i> Carrito</a>
+      <a class="nav-link" routerLink="/mi-perfil"><i class="fas fa-user"></i> Mi Perfil</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <div class="container">
+    <h2 class="page-title">Finalizar Compra</h2>
+
+    <div class="row">
+      <!-- Resumen de la compra -->
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-header">
+            <h4><i class="fas fa-shopping-basket"></i> Resumen de la Compra</h4>
+          </div>
+          <div class="card-body">
+            @if (cartItems.length === 0) {
+              <div class="text-center py-4">
+                <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+                <p class="text-muted">No hay productos en el carrito</p>
+                <a routerLink="/" class="btn btn-primary">Ir a comprar</a>
+              </div>
+            } @else {
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Producto</th>
+                      <th class="text-center">Cant.</th>
+                      <th class="text-end">Precio</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of cartItems; track item.id) {
+                      <tr>
+                        <td>{{item.referencia}}</td>
+                        <td class="text-center">{{item.cantidad}}</td>
+                        <td class="text-end">${{(item.precioVentaActual * item.cantidad).toFixed(2)}}</td>
+                      </tr>
+                    }
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" class="text-end">Subtotal:</td>
+                      <td class="text-end">${{subtotal.toFixed(2)}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="text-end">IVA (19%):</td>
+                      <td class="text-end">${{iva.toFixed(2)}}</td>
+                    </tr>
+                    <tr class="table-primary">
+                      <td colspan="2" class="text-end"><strong>Total a pagar:</strong></td>
+                      <td class="text-end"><strong>${{total.toFixed(2)}}</strong></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario de pago -->
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h4><i class="fas fa-credit-card"></i> Método de Pago</h4>
+          </div>
+          <div class="card-body">
+            <!-- Mensajes de estado -->
+            @if (error) {
+              <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                <div>{{error}}</div>
+                <button type="button" class="btn-close ms-auto" (click)="error = ''" aria-label="Close"></button>
+              </div>
+            }
+            @if (success) {
+              <div class="alert alert-success d-flex align-items-center" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <div>{{success}}</div>
+                <button type="button" class="btn-close ms-auto" (click)="success = ''" aria-label="Close"></button>
+              </div>
+            }
+
+            <!-- Identificación -->
+            <div class="form-group mb-4">
+              <label for="identificacion" class="form-label">
+                <i class="fas fa-id-card"></i> Número de Identificación
+              </label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="identificacion" 
+                [(ngModel)]="identificacion" 
+                placeholder="Ingrese su número de identificación"
+                required>
+            </div>
+
+            <!-- Selector de método de pago -->
+            <div class="payment-methods mb-4">
+              <div class="payment-method-option" 
+                   [class.active]="selectedMethod === 'card'"
+                   (click)="selectedMethod = 'card'">
+                <i class="fas fa-credit-card fa-2x mb-2"></i>
+                <div>Tarjeta de Crédito</div>
+              </div>
+              <div class="payment-method-option"
+                   [class.active]="selectedMethod === 'pse'"
+                   (click)="selectedMethod = 'pse'">
+                <i class="fas fa-university fa-2x mb-2"></i>
+                <div>PSE</div>
+              </div>
+            </div>
+
+            <!-- Formulario Tarjeta de Crédito -->
+            @if (selectedMethod === 'card') {
+              <form (ngSubmit)="payWithCard()" #cardForm="ngForm" class="payment-form">
+                <div class="mb-4">
+                  <label for="cardNumber" class="form-label">
+                    <i class="fas fa-credit-card"></i> Número de Tarjeta
+                  </label>
+                  <input type="text" class="form-control" id="cardNumber" 
+                         [(ngModel)]="cardNumber" name="cardNumber" 
+                         pattern="[0-9]{16}" maxlength="16"
+                         placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+                    <label for="expiry" class="form-label">
+                      <i class="fas fa-calendar"></i> Fecha de Vencimiento
+                    </label>
+                    <input type="text" class="form-control" id="expiry" 
+                           [(ngModel)]="expiry" name="expiry" 
+                           pattern="(0[1-9]|1[0-2])\/([0-9]{2})"
+                           placeholder="MM/YY" required>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <label for="cvv" class="form-label">
+                      <i class="fas fa-lock"></i> CVV
+                    </label>
+                    <input type="password" class="form-control" id="cvv" 
+                           [(ngModel)]="cvv" name="cvv" 
+                           pattern="[0-9]{3,4}" maxlength="4"
+                           placeholder="123" required>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <label for="cardName" class="form-label">
+                    <i class="fas fa-user"></i> Nombre en la Tarjeta
+                  </label>
+                  <input type="text" class="form-control" id="cardName" 
+                         [(ngModel)]="cardName" name="cardName" 
+                         pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+"
+                         placeholder="Como aparece en la tarjeta" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" 
+                        [disabled]="loading || !cardForm.form.valid || cartItems.length === 0">
+                  <i class="fas" [class.fa-spinner]="loading" [class.fa-spin]="loading" [class.fa-credit-card]="!loading"></i>
+                  {{loading ? 'Procesando pago...' : 'Pagar con Tarjeta'}}
+                </button>
+              </form>
+            }
+
+            <!-- Formulario PSE -->
+            @if (selectedMethod === 'pse') {
+              <form (ngSubmit)="payWithPSE()" #pseForm="ngForm" class="payment-form">
+                <div class="mb-4">
+                  <label for="bank" class="form-label">
+                    <i class="fas fa-university"></i> Seleccione su Banco
+                  </label>
+                  <select class="form-select" id="bank" [(ngModel)]="bank" name="bank" required>
+                    <option value="">Seleccione un banco</option>
+                    <option value="BANCOLOMBIA">Bancolombia</option>
+                    <option value="BBVA">BBVA</option>
+                    <option value="DAVIVIENDA">Davivienda</option>
+                    <option value="BANCO_BOGOTA">Banco de Bogotá</option>
+                  </select>
+                </div>
+                <div class="mb-4">
+                  <label for="pseEmail" class="form-label">
+                    <i class="fas fa-envelope"></i> Correo Electrónico
+                  </label>
+                  <input type="email" class="form-control" id="pseEmail" 
+                         [(ngModel)]="pseEmail" name="pseEmail" 
+                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                         placeholder="ejemplo@correo.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100" 
+                        [disabled]="loading || !pseForm.form.valid || cartItems.length === 0">
+                  <i class="fas" [class.fa-spinner]="loading" [class.fa-spin]="loading" [class.fa-university]="!loading"></i>
+                  {{loading ? 'Procesando pago...' : 'Pagar con PSE'}}
+                </button>
+              </form>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

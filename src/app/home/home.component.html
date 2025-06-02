@@ -1,0 +1,31 @@
+<header class="header">
+  <div class="container header__inner">
+    <h1 class="brand">Panadería Sophy</h1>
+    <nav class="nav">
+      <a routerLink="/inicio" class="nav-link">Inicio</a>
+      <a routerLink="/carrito" class="nav-link">Carrito</a>
+      <a routerLink="/mi-perfil" class="nav-link">Mi Perfil</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <h2 class="slogan">Sabores artesanales para tu mesa</h2>
+
+  <section class="productos">
+    <h3>Productos Destacados</h3>
+    <div class="productos-grid">
+      <div class="producto-card" *ngFor="let prod of productos; trackBy: trackById">
+        <img
+          [src]="'assets/img/' + (prod.fotoProducto || 'default.png')"
+          [alt]="prod.referencia"
+          (error)="onImgError($event)"
+        />
+        <h4>{{ prod.referencia }}</h4>
+        <p>{{ prod.descripcion }}</p>
+        <strong>${{ prod.precioVentaActual }}</strong>
+        <button (click)="agregarAlCarrito(prod)">Añadir al Carrito</button>
+      </div>
+    </div>
+  </section>
+</main>

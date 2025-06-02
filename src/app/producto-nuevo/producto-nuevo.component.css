@@ -1,0 +1,83 @@
+/* Contenedor general */
+.form-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 20px 25px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Título con estilo cursivo y marrón */
+.section-title {
+  font-family: 'Brush Script MT', cursive;
+  font-size: 28px;
+  color: #8B4513;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Formulario con flex vertical */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inputs y botones con margen, padding, borde y fuente */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #a0522d;
+  outline: none;
+}
+
+/* Checkbox label: inline y con margen */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #8B4513;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+/* Botón estilo admin */
+.admin-btn {
+  background-color: #a0522d;
+  color: white;
+  border: none;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.admin-btn:hover {
+  background-color: #8b4513;
+}

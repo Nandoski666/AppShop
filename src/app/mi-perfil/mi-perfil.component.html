@@ -1,0 +1,89 @@
+<div class="profile-container">
+  <header class="header">
+    <div class="header__inner">
+      <h1 class="brand">Panadería Sophy</h1>
+      <nav class="nav">
+        <a routerLink="/inicio" class="nav-link">Inicio</a>
+        <a routerLink="/carrito" class="nav-link">Carrito</a>
+        <a routerLink="/mi-perfil" class="nav-link active">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="profile-card">
+      <h2>Mi Perfil</h2>
+      <form (ngSubmit)="onSubmit()" #perfilForm="ngForm" autocomplete="off">
+        <div class="profile-info">
+          <div class="info-group">
+            <label for="loginUsrio">Usuario:</label>
+            <input
+              id="loginUsrio"
+              name="loginUsrio"
+              type="text"
+              [(ngModel)]="userProfile.loginUsrio"
+              required
+            />
+          </div>
+          <div class="info-group">
+            <label for="correoUsuario">Correo:</label>
+            <input
+              id="correoUsuario"
+              name="correoUsuario"
+              type="email"
+              [(ngModel)]="userProfile.correoUsuario"
+              required
+            />
+          </div>
+        </div>
+
+        <h3>Cambiar contraseña (opcional)</h3>
+        <div class="profile-info">
+          <div class="info-group">
+            <label for="currentPassword">Contraseña actual:</label>
+            <input
+              id="currentPassword"
+              name="currentPassword"
+              type="password"
+              [(ngModel)]="currentPassword"
+              autocomplete="current-password"
+            />
+          </div>
+          <div class="info-group">
+            <label for="newPassword">Nueva contraseña:</label>
+            <input
+              id="newPassword"
+              name="newPassword"
+              type="password"
+              [(ngModel)]="newPassword"
+              autocomplete="new-password"
+            />
+          </div>
+          <div class="info-group">
+            <label for="confirmPassword">Confirmar nueva contraseña:</label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              [(ngModel)]="confirmPassword"
+              autocomplete="new-password"
+            />
+          </div>
+        </div>
+
+        <div *ngIf="message" [ngClass]="{'error-message': isError, 'success-message': !isError}" class="message">
+          {{ message }}
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-save" [disabled]="isSubmitting">
+            <i class="fas fa-save"></i> Guardar cambios
+          </button>
+          <button type="button" class="btn-logout" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

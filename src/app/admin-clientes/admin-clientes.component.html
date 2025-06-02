@@ -1,0 +1,36 @@
+<section>
+  <h2 class="section-title">Gestión de Usuarios</h2>
+  <div class="actions">
+    <button class="admin-btn" (click)="cargarClientes()" [disabled]="loading">Refrescar Lista</button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Correo</th>
+        <th>Intentos</th>
+        <th>Tipo</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of clientes">
+        <td>{{ cliente.id }}</td>
+        <td>{{ cliente.loginUsrio }}</td>
+        <td>{{ cliente.correoUsuario }}</td>
+        <td>{{ cliente.intentos }}</td>
+        <td>{{ cliente.idTipoUsuario }}</td>
+        <td>{{ cliente.estado }}</td>
+      </tr>
+      <tr *ngIf="clientes.length === 0 && !loading">
+        <td colspan="6" class="no-data">No hay usuarios para mostrar.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

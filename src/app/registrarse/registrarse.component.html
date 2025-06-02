@@ -1,0 +1,72 @@
+<!-- registrarse.component.html -->
+<header class="header">
+  <div class="container header__inner">
+    <h1 class="brand">Panadería Sophy</h1>
+    <nav>
+      <a class="nav-link" (click)="goToLogin()">Inicio</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <div class="login-card">
+    <h2 class="welcome">Crea tu cuenta</h2>
+
+    <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+      <!-- Nombre -->
+      <div class="form-group">
+        <label for="nombre">Nombre Completo</label>
+        <input id="nombre" type="text" formControlName="nombre" placeholder="Tu nombre" />
+        <div class="error" *ngIf="nombre.touched && nombre.invalid">
+          <small *ngIf="nombre.hasError('required')">El nombre es obligatorio.</small>
+        </div>
+      </div>
+
+      <!-- Correo electrónico -->
+      <div class="form-group">
+        <label for="email">Correo electrónico</label>
+        <input id="email" type="email" formControlName="email" placeholder="tucorreo@ejemplo.com" />
+        <div class="error" *ngIf="email.touched && email.invalid">
+          <small *ngIf="email.hasError('required')">Requerido.</small>
+          <small *ngIf="email.hasError('email')">Formato inválido.</small>
+        </div>
+      </div>
+
+      <!-- Confirmar correo electrónico -->
+      <div class="form-group">
+        <label for="emailConfirm">Confirmar correo</label>
+        <input id="emailConfirm" type="email" formControlName="emailConfirm" placeholder="tucorreo@ejemplo.com" />
+        <div class="error" *ngIf="emailConfirm.touched && emailConfirm.invalid">
+          <small *ngIf="emailConfirm.hasError('required')">Requerido.</small>
+          <small *ngIf="emailConfirm.hasError('emailMismatch')">Los correos no coinciden.</small>
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="form-group">
+        <label for="telefono">Teléfono</label>
+        <input id="telefono" type="tel" formControlName="telefono" placeholder="3001234567" />
+        <div class="error" *ngIf="telefono.touched && telefono.invalid">
+          <small *ngIf="telefono.hasError('required')">Requerido.</small>
+          <small *ngIf="telefono.hasError('pattern')">Sólo dígitos (7–15).</small>
+        </div>
+      </div>
+
+      <!-- Dirección -->
+      <div class="form-group">
+        <label for="direccion">Dirección</label>
+        <input id="direccion" type="text" formControlName="direccion" placeholder="Tu dirección" />
+        <div class="error" *ngIf="direccion.touched && direccion.invalid">
+          <small *ngIf="direccion.hasError('required')">La dirección es obligatoria.</small>
+        </div>
+      </div>
+
+      <!-- Botón de envío -->
+      <button type="submit" [disabled]="regForm.invalid">Registrarse</button>
+    </form>
+
+    <p class="login-link">
+      ¿Ya tienes cuenta? <a (click)="goToLogin()">Inicia sesión</a>
+    </p>
+  </div>
+</main>

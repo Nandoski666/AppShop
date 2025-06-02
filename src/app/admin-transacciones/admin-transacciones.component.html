@@ -1,0 +1,36 @@
+<p>admin-transacciones works!</p>
+
+<section>
+  <h2 class="section-title">Historial de Transacciones</h2>
+  <div class="actions">
+    <button class="admin-btn" (click)="cargarTransacciones()">Refrescar Lista</button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tx of transacciones">
+        <td>{{ tx.id }}</td>
+        <td>{{ tx.identificacion }}</td>
+        <td>{{ tx.fechaHora }}</td>
+        <td>{{ getEstadoTransaccion(tx.estado) }}</td>
+        <td>{{ tx.valorTx | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+      </tr>
+      <tr *ngIf="transacciones.length === 0">
+        <td colspan="5" class="no-data">No hay transacciones para mostrar.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>

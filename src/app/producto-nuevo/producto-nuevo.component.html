@@ -1,0 +1,24 @@
+<div class="form-container">
+  <h2 class="section-title">Registrar Nuevo Producto</h2>
+  <form (submit)="guardarProducto($event)">
+    
+    <input type="number" placeholder="ID Categoría" name="id_categoria" required />
+    <input type="text" placeholder="Referencia" name="referencia" required />
+    <input type="text" placeholder="Descripción" name="descripcion" required />
+    <input type="number" placeholder="Existencia" name="existencia" required />
+    <input type="number" placeholder="Precio Venta Actual" name="precio_venta_actual" required />
+    <input type="number" placeholder="Precio Venta Anterior" name="precio_venta_anterior" />
+    <input type="number" placeholder="Costo Compra" name="costo_compra" required />
+
+    <label class="checkbox-label">
+      <input type="checkbox" name="tiene_iva" />
+      Tiene IVA
+    </label>
+
+    <input type="number" placeholder="Stock Máximo" name="stock_maximo" />
+    <input type="text" placeholder="Foto URL" name="foto_producto" />
+    <input type="number" placeholder="Estado (número)" name="estado" required />
+
+    <button type="submit" class="admin-btn">Guardar Producto</button>
+  </form>
+</div>

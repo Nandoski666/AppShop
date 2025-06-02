@@ -1,0 +1,192 @@
+.cart-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.cart-header {
+  margin-bottom: 2rem;
+}
+
+.cart-header h2 {
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+.cart-summary {
+  color: var(--text-muted);
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 4rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: var(--box-shadow);
+}
+
+.empty-cart i {
+  font-size: 4rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.cart-content {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+}
+
+.cart-items {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+}
+
+.cart-item {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h3 {
+  margin-bottom: 1rem;
+  color: var(--text-dark);
+}
+
+.item-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-controls input {
+  width: 60px;
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--text-dark);
+  transition: var(--transition);
+}
+
+.btn-icon:hover {
+  color: var(--primary-color);
+}
+
+.btn-icon.delete {
+  color: var(--danger-color);
+}
+
+.btn-icon.delete:hover {
+  opacity: 0.8;
+}
+
+.item-price {
+  font-weight: 500;
+  color: var(--text-dark);
+}
+
+.cart-summary-panel {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow);
+  height: fit-content;
+}
+
+.cart-summary-panel h3 {
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.summary-details {
+  margin-bottom: 1.5rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row.discount {
+  color: var(--success-color);
+}
+
+.summary-row.total {
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+.btn {
+  margin-bottom: 1rem;
+}
+
+.btn:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .cart-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-item {
+    flex-direction: column;
+  }
+
+  .item-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .item-controls {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+} 

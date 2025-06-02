@@ -1,0 +1,80 @@
+<header class="header">
+  <div class="header__inner">
+    <h1 class="brand">Panadería Sophy</h1>
+    <nav class="nav">
+      <a class="nav-link" routerLink="/home">Inicio</a>
+      <a class="nav-link" routerLink="/carrito">Carrito</a>
+      <a class="nav-link" routerLink="/mi-perfil">Mi Perfil</a>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+  <h2 class="cart-title">Tu carrito de compras</h2>
+
+  <table class="cart-table" *ngIf="carrito.length > 0; else carritoVacio">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let prod of carrito">
+        <td class="product-cell">
+          <img [src]="'assets/img/' + prod.fotoProducto" [alt]="prod.descripcion">
+          <div class="product-name">{{ prod.descripcion }}</div>
+        </td>
+        <td>
+          <input type="number" min="1" [value]="prod.cantidad" (change)="actualizarCantidad(prod, $event)">
+        </td>
+        <td>
+          <ng-container *ngIf="prod.precioVentaAnterior">
+            <span class="original-price">${{ prod.precioVentaAnterior }}</span>
+            <span class="discounted-price">${{ prod.precioVentaActual }}</span>
+            <span class="discount-badge">
+              {{
+                (
+                  ((prod.precioVentaAnterior - prod.precioVentaActual) / prod.precioVentaAnterior) * 100
+                ) | number:'1.0-0'
+              }}% OFF
+            </span>
+          </ng-container>
+          <ng-container *ngIf="!prod.precioVentaAnterior">
+            <span class="unit-price">${{ prod.precioVentaActual }}</span>
+          </ng-container>
+        </td>
+        <td>
+          <span class="line-total">${{ prod.precioVentaActual * prod.cantidad }}</span>
+        </td>
+        <td>
+          <button class="remove-btn" (click)="eliminarProducto(prod.id)">&times;</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #carritoVacio>
+    <p>Tu carrito está vacío.</p>
+  </ng-template>
+
+  <div class="summary" *ngIf="carrito.length > 0">
+    <div class="summary-item">
+      <span>Total parcial:</span>
+      <span class="summary-value">${{ subtotal | number:'1.0-0' }}</span>
+    </div>
+    <div class="summary-item">
+      <span>IVA (19%):</span>
+      <span class="summary-value">${{ iva | number:'1.0-0' }}</span>
+    </div>
+    <div class="summary-item total">
+      <span>Total:</span>
+      <span class="summary-value">${{ total | number:'1.0-0' }}</span>
+    </div>
+    <button class="checkout-btn" type="button" (click)="irAPagar()">Procedimiento de pago</button>
+  </div>
+</main>
+  

@@ -1,0 +1,186 @@
+<!-- admin.component.html -->
+<div class="admin-container">
+  <header class="header">
+    <div class="header__inner">
+      <h1 class="brand">Panadería Sophy – Admin</h1>
+      <nav class="nav">
+        <a (click)="setVista('productos')" [class.active]="vistaActual === 'productos'">Productos</a>
+        <a (click)="setVista('transacciones')" [class.active]="vistaActual === 'transacciones'">Transacciones</a>
+        <a (click)="setVista('clientes')" [class.active]="vistaActual === 'clientes'">Clientes</a>
+        
+        <button class="btn-logout" (click)="cerrarSesion()">
+          <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sección de Productos -->
+  <section *ngIf="vistaActual === 'productos'">
+    <h2 class="section-title">Gestión de Productos</h2>
+    <div class="actions">
+      <button class="admin-btn" (click)="productoNuevo()">Nuevo Producto</button>
+      <button class="admin-btn" (click)="cargarProductos()">Refrescar Lista</button>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Referencia</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prod of productos">
+          <td>{{ prod.id }}</td>
+          <td>{{ prod.referencia }}</td>
+          <td>{{ prod.descripcion }}</td>
+          <td>{{ prod.precioVentaActual | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+          <td>
+            <button class="admin-btn" (click)="editarProducto(prod)">Editar</button>
+            <button class="admin-btn" (click)="eliminarProducto(prod)">Eliminar</button>
+          </td>
+        </tr>
+        <tr *ngIf="productos.length === 0">
+          <td colspan="5" class="no-data">No hay productos para mostrar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Sección de Transacciones -->
+  <section *ngIf="vistaActual === 'transacciones'">
+    <h2 class="section-title">Historial de Transacciones</h2>
+    <div class="actions">
+      <button class="admin-btn" (click)="cargarTransacciones()">Refrescar Lista</button>
+      <button class="admin-btn download-btn" (click)="descargarReporteVentas()" [disabled]="loading">
+        <i class="fas fa-download"></i>
+        {{ loading ? 'Descargando...' : 'Descargar Reporte de Ventas' }}
+      </button>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of transacciones">
+          <td>{{ tx.id }}</td>
+          <td>{{ tx.identificacion }}</td>
+          <td>{{ tx.fechaHora | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          <td>{{ getEstadoTransaccion(tx.estado) }}</td>
+          <td>{{ tx.valorTx | currency:'COP':'symbol-narrow':'1.0-0' }}</td>
+        </tr>
+        <tr *ngIf="transacciones.length === 0">
+          <td colspan="5" class="no-data">No hay transacciones para mostrar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Sección de Usuarios -->
+  <section *ngIf="vistaActual === 'clientes'">
+    <h2 class="section-title">Gestión de Usuarios</h2>
+    <div class="actions">
+      <button class="admin-btn" (click)="cargarClientes()">Refrescar Lista</button>
+    </div>
+
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Correo</th>
+          <th>Intentos</th>
+          <th>Tipo</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{ cliente.id }}</td>
+          <td>{{ cliente.loginUsrio }}</td>
+          <td>{{ cliente.correoUsuario }}</td>
+          <td>{{ cliente.intentos }}</td>
+          <td>{{ cliente.idTipoUsuario }}</td>
+          <td>{{ cliente.estado }}</td>
+        </tr>
+        <tr *ngIf="clientes.length === 0">
+          <td colspan="6" class="no-data">No hay usuarios para mostrar.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<style>
+.header__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-family: 'Dancing Script', cursive;
+  font-size: 2rem;
+  color: #A0522D;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav a {
+  color: #8b4513;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav a.active, .nav a:focus {
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+}
+
+.btn-logout {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+  background-color: #c82333;
+}
+
+.btn-logout i {
+  font-size: 1rem;
+}
+</style>
